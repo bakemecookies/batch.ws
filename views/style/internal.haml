@@ -1,0 +1,249 @@
+:sass
+  // global variables
+  $foreground-color: #fff
+  $base-font-size: 1rem
+  $base-spacing: $base-font-size
+  // mixins and functions
+  =media-md
+    @media (min-width: 40rem)
+      @content
+  =align-items($align)
+    -webkit-align-items: $align
+    align-items: $align
+  =display-flex
+    display: -webkit-flex
+    display: flex
+  =flex-grow($grow)
+    -webkit-flex-grow: $grow
+    flex-grow: $grow
+  =flex-shrink($shrink)
+    -webkit-flex-shrink: $shrink
+    flex-shrink: $shrink
+  =font-weight-bold
+    font-weight: 600
+  =font-weight-normal
+    font-weight: 300
+  =font-size($multiplier)
+    font-size: $multiplier * $base-font-size
+  =justify-content($justify)
+    -webkit-justify-content: $justify
+    justify-content: $justify
+  =user-select($select)
+    -webkit-tap-highlight-color: transparent
+    -webkit-user-select: $select
+    user-select: $select
+  =width-fit-content
+    width: -webkit-fit-content
+    width: fit-content
+  =icon-button
+    cursor: pointer
+    mix-blend-mode: overlay
+    +user-select(none)
+  =icon-button-active
+    &:hover
+      mix-blend-mode: initial
+    opacity: 1.0
+    pointer-events: auto
+  =icon-button-inactive
+    opacity: 0.2
+    pointer-events: none
+  @function column-width($columns)
+    @return $columns / 12 * 100%
+  // general tags
+  *
+    box-sizing: border-box
+  a
+    color: inherit
+    display: inline-block
+    +font-weight-bold
+    text-decoration: none
+  svg
+    fill: $foreground-color
+  ul
+    list-style: none
+    margin: 0
+    padding: 0
+  // classes
+  .content
+    +media-md
+      margin-left: column-width(1)
+      width: column-width(10)
+    padding-left: $base-spacing
+    padding-right: $base-spacing
+  .row
+    &:not(:last-child)
+      margin-bottom: $base-spacing
+    +display-flex
+  =nav-box-shadow
+    box-shadow: inset 0 -0.125rem $foreground-color
+  $nav-height: 2.5 * $base-font-size
+  $nav-padding-top: $base-spacing
+  .nav
+    &.busy
+      pointer-events: none
+    &::-webkit-scrollbar
+      display: none
+    ul
+      border-right: $base-spacing solid transparent
+      box-sizing: content-box
+      +display-flex
+      +justify-content(center)
+      min-width: 100%
+      +width-fit-content
+    li
+      cursor: pointer
+      +flex-shrink(0)
+      +font-weight-bold
+      height: $nav-height
+      line-height: $nav-height
+      text-align: center
+      width: 5 * $base-font-size
+    @function nav-mask-gradient($direction)
+      @return linear-gradient(to $direction, rgba(255, 255, 255, 0) 0%, #fff 1rem, #fff 75%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0) 100%)
+    -webkit-mask-image: nav-mask-gradient(right), nav-mask-gradient(left)
+    overflow: auto
+    padding-top: $nav-padding-top
+    +user-select(none)
+  .control
+    $dimension-length: 2 * $base-font-size
+    svg
+      display: block
+      height: $dimension-length
+      margin-left: auto
+      margin-right: auto
+      width: $dimension-length
+    +media-md
+      width: column-width(2)
+    +icon-button
+    +icon-button-active
+    width: column-width(4)
+  .track
+    .playing &
+      mix-blend-mode: overlay
+      &.selected
+        mix-blend-mode: initial
+  // specific tags
+  html
+    background-image: url(#{ media_url('batch-background.jpg') })
+    background-position: center
+    background-repeat: no-repeat
+    background-size: cover
+    font-family: 'Open Sans', Helvetica, sans-serif
+    +font-weight-normal
+    +font-size(1)
+    height: 100%
+    line-height: 1.6
+  body
+    color: $foreground-color
+    height: 100%
+    margin: 0
+  header
+    *
+      line-height: 0
+    mix-blend-mode: overlay
+    padding-top: 2 * $base-spacing
+  =h-style
+    margin: 0
+    text-align: right
+  h1
+    +h-style
+  h2
+    +h-style
+    margin-top: 0.25rem
+  nav
+    li
+      &.selected
+        +nav-box-shadow
+        opacity: 1
+      &:hover
+        opacity: 1
+      opacity: 0
+    margin-top: -($nav-height + $nav-padding-top)
+  main
+    padding-bottom: $base-spacing
+    padding-top: $base-spacing
+  // ids
+  #wrapper
+    height: 100%
+    overflow: auto
+  #batch
+    height: 3rem
+  #blu
+    height: 1.5rem
+  #fake-nav
+    li
+      +nav-box-shadow
+    mix-blend-mode: overlay
+  #date
+    +font-weight-bold
+    width: column-width(10)
+  #download
+    a
+      &[href]
+        +icon-button-active
+      +icon-button
+      +icon-button-inactive
+    svg
+      height: $base-font-size
+      overflow: visible
+      vertical-align: -0.125rem
+      width: 1.375rem
+    text-align: right
+    width: column-width(2)
+  #time
+    .time
+      padding: 0 $base-spacing
+      width: 4.5 * $base-font-size
+    +align-items(center)
+    +font-size(0.75)
+    +font-weight-bold
+    height: 1.25 * $base-font-size
+    +user-select(none)
+  #elapsed
+    text-align: right
+  $progress-radius: $base-font-size / 8
+  #progress
+    div
+      border-radius: inherit
+      box-sizing: content-box
+      height: 0
+      margin-left: -$progress-radius
+      padding: $progress-radius
+    border-radius: $progress-radius
+    cursor: pointer
+    +flex-grow(1)
+    height: 2 * $progress-radius
+    overflow: hidden
+    padding-left: $progress-radius
+    padding-right: $progress-radius
+  #bar
+    background-color: #333
+    mix-blend-mode: soft-light
+    width: 100%
+  #seek
+    background-color: $foreground-color
+    margin-top: -2 * $progress-radius
+    width: 0
+  #controls
+    +user-select(none)
+  #previous
+    +media-md
+      margin-left: column-width(3)
+  #play
+    .playing &
+      display: none
+  #pause
+    .playing &
+      display: block
+    display: none
+  #track-template
+    display: none
+  #tracks
+    .info
+      width: column-width(9)
+    .title
+      +font-weight-bold
+    .time
+      +font-weight-bold
+      text-align: right
+      width: column-width(3)

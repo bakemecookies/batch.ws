@@ -1,0 +1,52 @@
+!!! 5
+%html
+  %head
+    %title batch by BLU
+    %meta{charset: 'utf-8'}
+    %meta{content: 'A series of progressive house/trance mixes.', name: 'description'}
+    %meta{content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no', name: 'viewport'}
+    %meta{content: 'http://batch.ws', property: 'og:url'}
+    %meta{content: media_url('batch.png'), property: 'og:image'}
+    %link{href: media_url('favicon.png'), rel: 'shortcut icon'}
+    %link{href: media_url('apple-touch-icon.png'), rel: 'apple-touch-icon'}
+    = haml :'style/external'
+    = haml :'style/internal'
+  %body{lang: 'en'}
+    #wrapper
+      %header.content
+        %h1= haml :'svg/batch'
+        %h2
+          %a{href: 'http://blu.pub', target: '_blank'}= haml :'svg/blu'
+      #fake-nav.nav.content
+        %ul
+          - episodes.each do |episode|
+            %li= episode['name']
+      %nav.nav.content
+        %ul
+          - episodes.each do |episode|
+            %li.episode{data: episode}= episode['name']
+      %main.content
+        .row#info
+          #date
+          #download
+            %a= haml :'svg/download'
+        .row#time
+          %audio{preload: 'metadata'}
+          .time#elapsed
+          #progress
+            #bar
+            #seek
+          .time#remaining
+        .row#controls
+          .control#previous= haml :'svg/previous'
+          .control#play= haml :'svg/play'
+          .control#pause= haml :'svg/pause'
+          .control#next= haml :'svg/next'
+        .row#track-template
+          .info
+            .title
+            .artist
+          .time
+        #tracks
+    = haml :'script/external'
+    = haml :'script/internal'

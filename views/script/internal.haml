@@ -1,0 +1,188 @@
+:javascript
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-48822821-2', 'auto');
+  ga('send', 'pageview');
+
+  // Declare batch namespace with a selector cache.
+  var batch = {
+    _cache: {}
+  };
+
+  // Retrieve selector (cached version, if desired and possible).
+  batch.get = function(selector, forceReload) {
+    if (this._cache[selector] === undefined || forceReload) {
+      this._cache[selector] = $(selector);
+    }
+    return this._cache[selector];
+  };
+
+  // Set cached selector (without verification).
+  batch.set = function(selector, value) {
+    this._cache[selector] = value;
+  };
+
+  // Convert single-digit numbers to zero-padded strings.
+  batch.pad = function(n) {
+    if (n < 10 && n >= 0) return ('0' + n);
+    if (n < 0 && n > -11) return ('-0' + Math.abs(n));
+    return n;
+  };
+
+  // Seek audio to the event-defined time.
+  batch.seek = function(timeFunction) {
+    if (batch.get('audio').prop('readyState') < HTMLMediaElement.HAVE_METADATA) {
+      return;
+    }
+    batch.get('audio').prop('currentTime', timeFunction());
+  };
+  batch.jump = function(e) {
+    batch.seek(function() {
+      return Math.round(batch.get('audio').prop('duration') * Math.floor((e.pageX || e.originalEvent.touches[0].pageX) - batch.get('#progress').offset().left) / Math.floor(batch.get('#progress').width()));
+    });
+  };
+  batch.previous = function(e) {
+    batch.seek(function() {
+      return parseInt(batch.get('.track.selected').prev('.track').data('start-time')) || 0;
+    });
+  };
+  batch.next = function(e) {
+    batch.seek(function() {
+      return parseInt(batch.get('.track.selected').next('.track').data('start-time')) || 0;
+    });
+  };
+
+  // Play/pause audio.
+  batch.play = function(e) {
+    batch.get('audio')[0].play();
+  };
+  batch.pause = function(e) {
+    batch.get('audio')[0].pause();
+  };
+
+  // Load episode: mark navigation item as selected and load tracks (forcing a track selector cache reload in the process).
+  batch.load = function(episodeName) {
+    batch.get('nav').addClass('busy');
+    var episode = batch.get('.episode').filter('[data-name="' + episodeName + '"]').addClass('selected');
+    batch.get('#date').text(moment.utc(episode.data('date')).format('LL'));
+    var mediaUrl = episode.data('media-url');
+    batch.get('#download a').attr('href', mediaUrl);
+    batch.get('audio').attr('src', mediaUrl);
+    $.getJSON('/tracks/' + episodeName, function(data) {
+      batch.get('nav').removeClass('busy');
+      for (var index = 0; index < data.length; index++) {
+        var startTime = moment.duration(data[index]['start_time']);
+        var track = batch.get('#track-template').clone().removeAttr('id').addClass('track').data('start-time', startTime.asSeconds());
+        var info = track.children('.info');
+        info.children('.title').text(data[index]['title']);
+        info.children('.artist').text(data[index]['artist']);
+        track.children('.time').text(startTime.minutes() + ':' + batch.pad(startTime.seconds()));
+        batch.get('#tracks').append(track);
+      }
+      batch.get('.track', true);
+    });
+  };
+
+  // Synchronize scroll of navigation menus.
+  batch.get('nav').on('scroll', function(e) {
+    batch.get('#fake-nav').scrollLeft(batch.get('nav').scrollLeft());
+  });
+
+  // Push the selected episode's state onto the browser history.
+  batch.get('.episode').on('click', function(e) {
+    var data = {
+      'episode': $(this).data('name')
+    };
+    History.pushState(data, document.title, window.location.pathname + '?' + $.param(data));
+  });
+
+  // Trigger audio jumping based on event.
+  batch.get('#progress').on('mousedown touchstart', function(e) {
+    batch.jumping = true;
+    batch.jump(e);
+  }).on('mousemove touchmove', function(e) {
+    if (!batch.jumping) {
+      return;
+    }
+    batch.jump(e);
+  });
+  batch.get(window).on('mouseup touchend', function(e) {
+    batch.jumping = false;
+  });
+
+  // Update audio information.
+  batch.get('audio').on('emptied', function(e) {
+    batch.get('main').removeClass('playing');
+    batch.get('#elapsed').text('');
+    batch.get('#seek').css('width', '');
+    batch.get('#remaining').text('');
+  }).on('loadedmetadata timeupdate', function(e) {
+    var position = moment.duration(Math.floor(parseFloat(batch.get('audio').prop('currentTime'))), 's');
+    var duration = moment.duration(Math.floor(parseFloat(batch.get('audio').prop('duration'))), 's');
+    var remaining = moment.duration(position).subtract(duration);
+    batch.get('#elapsed').text(position.minutes() + ':' + batch.pad(position.seconds()));
+    batch.get('#seek').css('width', (position / duration * 100) + '%');
+    batch.get('#remaining').text('-' + Math.abs(remaining.minutes()) + ':' + batch.pad(Math.abs(remaining.seconds())));
+    var tracks = batch.get('.track').removeClass('selected');
+    for (var index = tracks.length - 1; index >= 0; index--) {
+      var track = tracks.eq(index);
+      if (position.asSeconds() >= parseInt(track.data('start-time'))) {
+        track.addClass('selected');
+        batch.set('.track.selected', track);
+        break;
+      }
+    }
+  });
+
+  // Clear old episode data and trigger an episode load if the episode name is available, otherwise trigger a click on the first navigation item.
+  batch.get(window).on('statechange', function(e) {
+    batch.get('.episode').removeClass('selected');
+    batch.get('#date').text('');
+    batch.get('#download a').removeAttr('href');
+    batch.get('audio').attr('src', '');
+    batch.get('#tracks').empty();
+    var episodeName = History.getState().data['episode'];
+    if (episodeName) {
+      batch.load(episodeName);
+    }
+    else {
+      batch.get('.episode').first().click();
+    }
+  });
+
+  // Trigger audio events based on event.
+  batch.get('#previous').on('click', batch.previous);
+  batch.get('#play').on('click', batch.play);
+  batch.get('#pause').on('click', batch.pause);
+  batch.get('#next').on('click', batch.next);
+  batch.get(window).on('keydown', function(e) {
+    switch (e.which) {
+      case 32:
+        batch.get('main').hasClass('playing') ? batch.pause(e) : batch.play(e);
+        break;
+      case 37:
+      case 38:
+        batch.previous(e);
+        break;
+      case 39:
+      case 40:
+        batch.next(e);
+        break;
+    }
+  });
+
+  // Update controls.
+  batch.get('audio').on('playing', function(e) {
+    batch.get('main').addClass('playing');
+  }).on('pause', function(e) {
+    batch.get('main').removeClass('playing');
+  }).on('ended', function(e) {
+    batch.get('main').removeClass('playing');
+  });
+
+  // Initialize interface.
+  $(function() {
+    batch.get(window).trigger('statechange');
+  });
