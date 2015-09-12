@@ -21,3 +21,6 @@ before_script:
     artist VARCHAR(255) NOT NULL,
     PRIMARY KEY (episode_name, start_time),
     FOREIGN KEY (episode_name) REFERENCES episode (name) ON DELETE CASCADE);"
+  - >
+    mysql --defaults-group-suffix=batch -e "SHOW databases;
+    SHOW tables;"
