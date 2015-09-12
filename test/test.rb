@@ -7,6 +7,7 @@ Coveralls.wear!
 
 require 'rack/test'
 require 'test/unit'
+require 'timeout'
 
 require_relative '../batch'
 
