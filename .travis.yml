@@ -1,6 +1,6 @@
 language: ruby
 rvm:
-  - ruby-2.2
+  - system
   - ruby-head
 before_script:
   - cp test/.my.cnf ~/.my.cnf
