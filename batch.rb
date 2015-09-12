@@ -10,6 +10,7 @@ require 'json'
 set :haml, format: :html5
 
 client = Mysql2::Client.new(default_group: 'clientbatch')
+p client
 
 def media_url(uri = nil)
   File.join('//media.batch.ws', url(uri, false))
