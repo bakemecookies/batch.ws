@@ -1,4 +1,5 @@
 # batch.ws
+
 http://batch.ws
 
 [![Build Status](https://travis-ci.org/bakemecookies/batch.ws.svg?branch=master)](https://travis-ci.org/bakemecookies/batch.ws)
@@ -7,6 +8,10 @@ http://batch.ws
 [![Dependency Status](https://gemnasium.com/bakemecookies/batch.ws.svg)](https://gemnasium.com/bakemecookies/batch.ws)
 
 This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+
+## Deployment
+
+Use the instructions in [server-guide](https://github.com/bakemecookies/server-guide).
 
 ## [MySQL](http://www.mysql.com/)
 
