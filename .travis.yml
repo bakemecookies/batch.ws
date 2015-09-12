@@ -2,7 +2,8 @@ language: ruby
 rvm:
   - ruby-head
 before_script:
-  - cp test/.my.cnf ~/.my.cnf
+  - cat "$TRAVIS_BUILD_DIR/test/.my.cnf" | sudo tee -a /etc/mysql/my.cnf
+  - sudo service mysql restart
   - >
     mysql -u root -e "CREATE DATABASE batch;
     CREATE USER 'batch' IDENTIFIED BY 'test';
