@@ -5,7 +5,6 @@ require 'sinatra'
 require 'tilt/haml'
 require 'tilt/sass'
 require 'mysql2'
-require 'timeout'
 require 'json'
 
 set :haml, format: :html5
