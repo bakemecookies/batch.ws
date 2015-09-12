@@ -1,10 +1,6 @@
 language: ruby
 rvm:
   - ruby-head
-addons:
-  apt:
-    packages:
-      - libmysqlclient-dev
 before_script:
   - cp "$TRAVIS_BUILD_DIR/test/.my.cnf" ~/.my.cnf
   - >
