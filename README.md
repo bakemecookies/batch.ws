@@ -1,6 +1,4 @@
-# batch.ws
-
-http://batch.ws
+# [batch.ws](http://batch.ws/)
 
 [![Build Status](https://travis-ci.org/bakemecookies/batch.ws.svg?branch=master)](https://travis-ci.org/bakemecookies/batch.ws)
 [![Code Climate](https://codeclimate.com/github/bakemecookies/batch.ws/badges/gpa.svg)](https://codeclimate.com/github/bakemecookies/batch.ws)
