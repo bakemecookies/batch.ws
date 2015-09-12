@@ -2,3 +2,22 @@ language: ruby
 rvm:
   - ruby-2.2
   - ruby-head
+before_script:
+  - cp test/.my.cnf ~/.my.cnf
+  - >
+    mysql -u root -e "CREATE DATABASE batch;
+    CREATE USER 'batch' IDENTIFIED BY 'test';
+    GRANT ALL ON batch.* to 'batch';"
+  - >
+    mysql --defaults-group-suffix=batch -e "CREATE TABLE episode
+    (name VARCHAR(4) NOT NULL,
+    date DATE NOT NULL,
+    media_url VARCHAR(1024) NOT NULL,
+    PRIMARY KEY (name),
+    INDEX (date));
+    CREATE TABLE track (episode_name VARCHAR(4) NOT NULL,
+    start_time TIME NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    artist VARCHAR(255) NOT NULL,
+    PRIMARY KEY (episode_name, start_time),
+    FOREIGN KEY (episode_name) REFERENCES episode (name) ON DELETE CASCADE);"
