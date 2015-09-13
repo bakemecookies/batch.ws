@@ -5,8 +5,6 @@
 [![Coverage Status](https://coveralls.io/repos/bakemecookies/batch.ws/badge.svg?branch=master&service=github)](https://coveralls.io/github/bakemecookies/batch.ws?branch=master)
 [![Dependency Status](https://gemnasium.com/bakemecookies/batch.ws.svg)](https://gemnasium.com/bakemecookies/batch.ws)
 
-This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
-
 ## Deployment
 
 Use the instructions in [server-guide](https://github.com/bakemecookies/server-guide).
@@ -41,3 +39,5 @@ CREATE TABLE track (episode_name VARCHAR(4) NOT NULL,
   PRIMARY KEY (episode_name, start_time),
   FOREIGN KEY (episode_name) REFERENCES episode (name) ON DELETE CASCADE);
 ```
+
+[![Creative Commons Attribution 4.0 International License](http://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by.svg)](http://creativecommons.org/licenses/by/4.0/)
