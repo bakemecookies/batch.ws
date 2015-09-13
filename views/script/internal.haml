@@ -161,14 +161,17 @@
     switch (e.which) {
       case 32:
         batch.get('main').hasClass('playing') ? batch.pause(e) : batch.play(e);
+        e.preventDefault();
         break;
       case 37:
       case 38:
         batch.previous(e);
+        e.preventDefault();
         break;
       case 39:
       case 40:
         batch.next(e);
+        e.preventDefault();
         break;
     }
   });
