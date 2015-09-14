@@ -20,18 +20,18 @@ get '/' do
     episodes: client.query(<<-QUERY)
     SELECT *
     FROM episode
-    ORDER BY name DESC
+    ORDER BY number DESC
     QUERY
   }
 end
 
-get '/tracks/:episode_name' do |episode_name|
+get '/tracks/:episode_number' do |episode_number|
   content_type :json, charset: 'utf-8'
   client.query(<<-QUERY).to_a.to_json
   SELECT *,
   CAST(start_time AS CHAR) start_time
   FROM track
-  WHERE episode_name = '#{episode_name}'
+  WHERE episode_number = '#{episode_number}'
   ORDER BY start_time
   QUERY
 end

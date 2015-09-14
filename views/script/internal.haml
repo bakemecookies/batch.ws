@@ -63,14 +63,14 @@
   };
 
   // Load episode: mark navigation item as selected and load tracks (forcing a track selector cache reload in the process).
-  batch.load = function(episodeName) {
+  batch.load = function(episodeNumber) {
     batch.get('nav').addClass('busy');
-    var episode = batch.get('.episode').filter('[data-name="' + episodeName + '"]').addClass('selected');
+    var episode = batch.get('.episode').filter('[data-number="' + episodeNumber + '"]').addClass('selected');
     batch.get('#date').text(moment.utc(episode.data('date')).format('LL'));
     var mediaUrl = episode.data('media-url');
     batch.get('#download a').attr('href', mediaUrl);
     batch.get('audio').attr('src', mediaUrl);
-    $.getJSON('/tracks/' + episodeName, function(data) {
+    $.getJSON('/tracks/' + episodeNumber, function(data) {
       batch.get('nav').removeClass('busy');
       for (var index = 0; index < data.length; index++) {
         var startTime = moment.duration(data[index]['start_time']);
@@ -93,7 +93,7 @@
   // Push the selected episode's state onto the browser history.
   batch.get('.episode').on('click', function(e) {
     var data = {
-      'episode': $(this).data('name')
+      'episode': $(this).data('number')
     };
     History.pushState(data, document.title, window.location.pathname + '?' + $.param(data));
   });
@@ -143,9 +143,9 @@
     batch.get('#download a').removeAttr('href');
     batch.get('audio').attr('src', '');
     batch.get('#tracks').empty();
-    var episodeName = History.getState().data['episode'];
-    if (episodeName) {
-      batch.load(episodeName);
+    var episodeNumber = History.getState().data['episode'];
+    if (episodeNumber) {
+      batch.load(episodeNumber);
     }
     else {
       batch.get('.episode').first().click();

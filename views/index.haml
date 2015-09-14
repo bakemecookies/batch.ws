@@ -20,11 +20,11 @@
       #fake-nav.nav.content
         %ul
           - episodes.each do |episode|
-            %li= episode['name']
+            %li= episode['number']
       %nav.nav.content
         %ul
           - episodes.each do |episode|
-            %li.episode{data: episode}= episode['name']
+            %li.episode{data: episode}= episode['number']
       %main.content
         .row#info
           #date
