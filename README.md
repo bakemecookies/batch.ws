@@ -32,7 +32,8 @@ CREATE TABLE episode
   INDEX (date));
 ```
 ```
-CREATE TABLE track (episode_number TINYINT NOT NULL,
+CREATE TABLE track
+  (episode_number TINYINT NOT NULL,
   start_time TIME NOT NULL,
   title VARCHAR(255) NOT NULL,
   artist VARCHAR(255) NOT NULL,
