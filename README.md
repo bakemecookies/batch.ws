@@ -7,7 +7,7 @@
 
 ## Deployment
 
-Use the instructions in [server-guide](https://github.com/bakemecookies/server-guide).
+See [server-guide](https://github.com/bakemecookies/server-guide).
 
 ## [MySQL](http://www.mysql.com/)
 
