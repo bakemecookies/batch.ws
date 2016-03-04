@@ -11,7 +11,7 @@ GEM
     haml (4.0.7)
       tilt
     json (1.8.3)
-    mysql2 (0.4.2)
+    mysql2 (0.4.3)
     power_assert (0.2.7)
     rack (1.6.4)
     rack-protection (1.5.3)
