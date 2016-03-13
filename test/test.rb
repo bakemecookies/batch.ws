@@ -1,9 +1,13 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'coveralls'
+require 'simplecov'
 
-Coveralls.wear!
+SimpleCov.start
+
+require 'codecov'
+
+SimpleCov.formatter = SimpleCov::Formatter::Codecov
 
 require 'rack/test'
 require 'test/unit'
