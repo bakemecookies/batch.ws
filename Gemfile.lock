@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    codecov (0.1.5)
+    codecov (0.1.6)
       json
       simplecov
       url
@@ -47,4 +47,4 @@ DEPENDENCIES
   test-unit
 
 BUNDLED WITH
-   1.13.1
+   1.13.5
