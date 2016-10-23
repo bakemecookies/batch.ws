@@ -5,8 +5,8 @@ language: generic
 sudo: required
 dist: trusty
 osx_image: xcode8
-install:
-  - curl -sL swift.vapor.sh/ubuntu | bash
+services:
+  - mysql
 before_script:
   - cp "$TRAVIS_BUILD_DIR/test/.my.cnf" ~/.my.cnf
   - >
@@ -28,5 +28,4 @@ before_script:
     PRIMARY KEY (episode_number, start_time),
     FOREIGN KEY (episode_number) REFERENCES episode (number) ON DELETE CASCADE);"
 script:
-  - swift build
-  - swift build -c release
+  - eval "$(curl -sL https://swift.vapor.sh/ci)"
