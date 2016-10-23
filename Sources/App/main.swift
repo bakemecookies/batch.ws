@@ -1,7 +1,8 @@
 import Vapor
 import VaporMySQL
 
-let drop = Droplet(providers: [VaporMySQL.Provider.self])
+let drop = Droplet()
+try drop.addProvider(VaporMySQL.Provider.self)
 
 drop.get { request in
   return try drop.view.make("index", [
