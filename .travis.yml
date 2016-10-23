@@ -4,9 +4,13 @@ os:
 language: generic
 sudo: required
 dist: trusty
+addons:
+  apt:
+    packages:
+    - mysql-server-5.6
+    - mysql-client-core-5.6
+    - mysql-client-5.6
 osx_image: xcode8
-services:
-  - mysql
 before_script:
   - cp "$TRAVIS_BUILD_DIR/test/.my.cnf" ~/.my.cnf
   - >
