@@ -31,4 +31,4 @@ before_script:
     PRIMARY KEY (episode_number, start_time),
     FOREIGN KEY (episode_number) REFERENCES episode (number) ON DELETE CASCADE);"
 script:
-  - eval "$(curl -sL https://gist.githubusercontent.com/bakemecookies/87f4a44ee282206b4e32ace78847c180/raw/f5261dd24f534eb7b35050336c1964c68b4c2119/ci)"
+  - eval "$(curl -sL https://gist.githubusercontent.com/bakemecookies/87f4a44ee282206b4e32ace78847c180/raw/fdc9653098443f4d864605b6c276ef6cf1eb8dfd/ci)"
