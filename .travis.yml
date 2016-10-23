@@ -6,13 +6,13 @@ sudo: required
 dist: trusty
 osx_image: xcode8
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then eval "$(curl -sL https://gist.githubusercontent.com/bakemecookies/dd728a46bbc889b22b9470432092933c/raw/11715c902b5d98b9256dbcbecec5d969aefd9ece/mysql)"; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then eval "$(curl -sL https://gist.githubusercontent.com/bakemecookies/fabafba485630f6d8280e29e8afbd4a0/raw/1c364252bc56d9bbb142cd2396158994eb795ac4/mysql)"; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install mysql; fi
 before_script:
   - cp "$TRAVIS_BUILD_DIR/test/.my.cnf" ~/.my.cnf
   - >
-    mysql -u root -e "CREATE DATABASE batch;
+    mysql -e "CREATE DATABASE batch;
     CREATE USER 'batch' IDENTIFIED BY 'test';
     GRANT ALL ON batch.* to 'batch';"
   - >
