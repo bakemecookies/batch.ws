@@ -1,0 +1,279 @@
+#raw() {
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    a {
+      color: inherit;
+      display: inline-block;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    svg {
+      fill: #fff;
+    }
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .content {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    @media (min-width: 640px) {
+      .content {
+        margin-left: 8.333%;
+        width: 83.333%;
+      }
+    }
+    .row {
+      display: -webkit-flex;
+      display: flex;
+    }
+    .row:not(:last-child) {
+      margin-bottom: 16px;
+    }
+    .nav {
+      -webkit-mask-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #fff 16px, #fff 75%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0) 100%), linear-gradient(to left, rgba(255, 255, 255, 0) 0%, #fff 16px, #fff 75%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0) 100%);
+      overflow: auto;
+      padding-top: 16px;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .nav.busy {
+      pointer-events: none;
+    }
+    .nav::-webkit-scrollbar {
+      display: none;
+    }
+    .nav ul {
+      border-right: 16px solid transparent;
+      box-sizing: content-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-justify-content: center;
+      justify-content: center;
+      min-width: 100%;
+      width: -webkit-fit-content;
+      width: fit-content;
+    }
+    .nav li {
+      cursor: pointer;
+      -webkit-flex-shrink: 0;
+      flex-shrink: 0;
+      font-weight: 600;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      width: 80px;
+    }
+    .control {
+      cursor: pointer;
+      mix-blend-mode: overlay;
+      opacity: 1;
+      pointer-events: auto;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-user-select: none;
+      user-select: none;
+      width: 33.333%;
+    }
+    .control svg {
+      display: block;
+      height: 32px;
+      margin-left: auto;
+      margin-right: auto;
+      width: 32px;
+    }
+    @media (min-width: 640px) {
+      .control {
+        width: 16.667%;
+      }
+    }
+    .control:hover {
+      mix-blend-mode: initial;
+    }
+    .playing .track {
+      mix-blend-mode: overlay;
+    }
+    .playing .track.selected {
+      mix-blend-mode: initial;
+    }
+
+    html {
+      background-image: url("//media.batch.ws/batch-background.jpg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      font-family: "Open Sans", Helvetica, sans-serif;
+      font-size: 16px;
+      font-weight: 300;
+      height: 100%;
+      line-height: 1.6;
+    }
+    body {
+      color: #fff;
+      height: 100%;
+      margin: 0;
+    }
+    header {
+      mix-blend-mode: overlay;
+      padding-top: 32px;
+    }
+    header * {
+      line-height: 0;
+    }
+    h1 {
+      margin: 0;
+      text-align: right;
+    }
+    h2 {
+      margin: 0;
+      margin-top: 4px;
+      text-align: right;
+    }
+    nav {
+      margin-top: -56px;
+    }
+    nav li {
+      opacity: 0;
+    }
+    nav li.selected {
+      box-shadow: inset 0 -2px #fff;
+      opacity: 1;
+    }
+    nav li:hover {
+      opacity: 1;
+    }
+    main {
+      padding-bottom: 16px;
+      padding-top: 16px;
+    }
+
+    #wrapper {
+      height: 100%;
+      overflow: auto;
+    }
+    #batch {
+      height: 48px;
+    }
+    #blu {
+      height: 24px;
+    }
+    #fake-nav {
+      mix-blend-mode: overlay;
+    }
+    #fake-nav li {
+      box-shadow: inset 0 -2px #fff;
+    }
+    #date {
+      font-weight: 600;
+      width: 83.333%;
+    }
+    #download {
+      text-align: right;
+      width: 16.66667%;
+    }
+    #download a {
+      cursor: pointer;
+      mix-blend-mode: overlay;
+      opacity: 0.2;
+      pointer-events: none;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    #download a[href] {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    #download a[href]:hover {
+      mix-blend-mode: initial;
+    }
+    #download svg {
+      height: 16px;
+      overflow: visible;
+      vertical-align: -2px;
+      width: 22px;
+    }
+    #time {
+      -webkit-align-items: center;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 600;
+      height: 20px;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    #time .time {
+      padding: 0 16px;
+      width: 72px;
+    }
+    #elapsed {
+      text-align: right;
+    }
+    #progress {
+      border-radius: 2px;
+      cursor: pointer;
+      -webkit-flex-grow: 1;
+      flex-grow: 1;
+      height: 4px;
+      overflow: hidden;
+      padding-left: 2px;
+      padding-right: 2px;
+    }
+    #progress div {
+      border-radius: inherit;
+      box-sizing: content-box;
+      height: 0;
+      margin-left: -2px;
+      padding: 2px;
+    }
+    #bar {
+      background-color: #333;
+      mix-blend-mode: soft-light;
+      width: 100%;
+    }
+    #seek {
+      background-color: #fff;
+      margin-top: -4px;
+      width: 0;
+    }
+    #controls {
+      -webkit-tap-highlight-color: transparent;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    @media (min-width: 640px) {
+      #previous {
+        margin-left: 25%;
+      }
+    }
+    .playing #play {
+      display: none;
+    }
+    #pause {
+      display: none;
+    }
+    .playing #pause {
+      display: block;
+    }
+    #track-template {
+      display: none;
+    }
+    #tracks .info {
+      width: 75%;
+    }
+    #tracks .title {
+      font-weight: 600;
+    }
+    #tracks .time {
+      font-weight: 600;
+      text-align: right;
+      width: 25%;
+    }
+  </style>
+}

@@ -2,8 +2,6 @@
 
 [![Build Status](https://travis-ci.org/bakemecookies/batch.ws.svg?branch=master)](https://travis-ci.org/bakemecookies/batch.ws)
 [![Code Climate](https://codeclimate.com/github/bakemecookies/batch.ws/badges/gpa.svg)](https://codeclimate.com/github/bakemecookies/batch.ws)
-[![codecov.io](https://codecov.io/github/bakemecookies/batch.ws/coverage.svg?branch=master)](https://codecov.io/github/bakemecookies/batch.ws?branch=master)
-[![Dependency Status](https://gemnasium.com/bakemecookies/batch.ws.svg)](https://gemnasium.com/bakemecookies/batch.ws)
 
 ## Deployment
 

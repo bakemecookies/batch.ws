@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>batch by BLU</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <meta content="http://batch.ws" property="og:url">
+    <meta content="//media.batch.ws/batch.png" property="og:image">
+    <link href="//media.batch.ws/favicon.png" rel="shortcut icon">
+    <link href="//media.batch.ws/apple-touch-icon.png" rel="apple-touch-icon">
+    #embed("Style/external")
+    #embed("Style/internal")
+  </head>
+  <body lang="en">
+    <div id="wrapper">
+      <header class="content">
+        <h1>
+          #embed("SVG/batch")
+        </h1>
+        <h2>
+          <a href="http://blu.pub" target="_blank">#embed("SVG/blu")</a>
+        </h2>
+      </header>
+      <div id="fake-nav" class="nav content">
+        <ul>
+          #loop(episodes, "episode") {
+            <li>#(episode.number)</li>
+          }
+        </ul>
+      </div>
+      <nav class="nav content">
+        <ul>
+          #loop(episodes, "episode") {
+            <li class="episode" data-number="#(episode.number)" data-date="#(episode.date)" data-media-url="#(episode.media_url)">#(episode.number)</li>
+          }
+        </ul>
+      </nav>
+      <main class="content">
+        <div id="info" class="row">
+          <div id="date"></div>
+          <div id="download">
+            <a>#embed("SVG/download")</a>
+          </div>
+        </div>
+        <div id="time" class="row">
+          <audio preload="metadata"></audio>
+          <div id="elapsed" class="time"></div>
+          <div id="progress">
+            <div id="bar"></div>
+            <div id="seek"></div>
+          </div>
+          <div id="remaining" class="time"></div>
+        </div>
+        <div id="controls" class="row">
+          <div id="previous" class="control">#embed("SVG/previous")</div>
+          <div id="play" class="control">#embed("SVG/play")</div>
+          <div id="pause" class="control">#embed("SVG/pause")</div>
+          <div id="next" class="control">#embed("SVG/next")</div>
+        </div>
+        <div id="track-template" class="row">
+          <div class="info">
+            <div class="title"></div>
+            <div class="artist"></div>
+          </div>
+          <div class="time"></div>
+        </div>
+        <div id="tracks"></div>
+      </main>
+    </div>
+    #embed("Script/external")
+    #embed("Script/internal")
+  </body>
+</html>
