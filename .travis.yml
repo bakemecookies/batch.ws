@@ -6,10 +6,10 @@ sudo: required
 dist: trusty
 osx_image: xcode8
 before_install:
-  - brew update
-  - brew outdated mysql || brew upgrade mysql
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then eval "$(curl -sL https://gist.githubusercontent.com/bakemecookies/dd728a46bbc889b22b9470432092933c/raw/8f9bf0c21bd40231b39f8187b0c534d917f8cc27/mysql)"; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew outdated mysql || brew upgrade mysql; fi
 before_script:
-  - eval "$(curl -sL https://gist.githubusercontent.com/bakemecookies/dd728a46bbc889b22b9470432092933c/raw/8f9bf0c21bd40231b39f8187b0c534d917f8cc27/mysql)"
   - cp "$TRAVIS_BUILD_DIR/test/.my.cnf" ~/.my.cnf
   - >
     mysql -u root -e "CREATE DATABASE batch;
