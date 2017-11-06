@@ -1,12 +1,11 @@
 os:
   - linux
-  - osx
 language: generic
 sudo: required
 dist: trusty
-osx_image: xcode8
+osx_image: xcode9.1
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then eval "$(curl -sL https://gist.githubusercontent.com/bakemecookies/fabafba485630f6d8280e29e8afbd4a0/raw/1c364252bc56d9bbb142cd2396158994eb795ac4/mysql)"; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then eval "$(curl -sL https://gist.githubusercontent.com/bakemecookies/a40d1c3ff635292ddab99fccd6c16dae/raw/7ace3c3662fe6f9ff17027846946af1122fa2ffa/mysql)"; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install mysql; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then mysql.server start; fi
@@ -31,4 +30,4 @@ before_script:
     PRIMARY KEY (episode_number, start_time),
     FOREIGN KEY (episode_number) REFERENCES episode (number) ON DELETE CASCADE);"
 script:
-  - eval "$(curl -sL https://gist.githubusercontent.com/bakemecookies/a031003addffa3201205a029ff68d146/raw/a9d94ac6f6107bd20805f42e931a7b385b9873f6/ci)"
+  - eval "$(curl -sL https://gist.githubusercontent.com/bakemecookies/1742b179c1528f68104686a5f3e14d01/raw/7010ade427f3671de3c66663f0a296bdc6301105/ci)"

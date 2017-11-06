@@ -1,10 +1,14 @@
 import Vapor
-import VaporMySQL
+import LeafProvider
+import MySQLProvider
 
-let drop = Droplet()
-try drop.addProvider(VaporMySQL.Provider.self)
+let config = try Config()
+try config.addProvider(LeafProvider.Provider.self)
+try config.addProvider(MySQLProvider.Provider.self)
 
-drop.get { request in
+let drop = try Droplet(config)
+
+drop.get { _ in
   return try drop.view.make("index", [
     "episodes": try JSON(node: drop.database?.driver.raw([
       "SELECT *",
@@ -14,7 +18,8 @@ drop.get { request in
     ])
 }
 
-drop.get("tracks", Int.self) { request, episodeNumber in
+drop.get("tracks", Int.parameter) { request in
+  let episodeNumber = try request.parameters.next(Int.self)
   return try JSON(node: drop.database?.driver.raw([
     "SELECT *",
     "FROM track",
@@ -23,4 +28,4 @@ drop.get("tracks", Int.self) { request, episodeNumber in
     ].joined(separator: " ")))
 }
 
-drop.run()
+try drop.run()
